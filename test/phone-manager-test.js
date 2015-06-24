@@ -1,28 +1,30 @@
 'use strict';
+
 var mocha = require('mocha'),
     should = require('should'),
     mongoose = require('mongoose'),
     schema = mongoose.Schema(),
     phoneManagerPlugin = require('../lib/phone-manager.js');
-    mongoose.connect('mongodb://localhost/phone');
+
+    mongoose.connect('mongodb://localhost/mongoose-phone-manager');
     schema.plugin(phoneManagerPlugin);
 
-describe.only('Mongoose Email Address Manager', function(){
+describe('Mongoose Email Address Manager', function(){
 
   var User = mongoose.model('user', schema),
       user;
-  beforeEach(function(done){
+
+  beforeEach(function (done) {
     user = new User({
       phone_numbers: [{
         phone_number: "+44 1865 722180",
         typeOfPhone : "Home"
       }]
     });
-    user.save( function (err, doc) {
+    user.save(function (err, doc) {
       if (err) return done(err);
       done();
     });
-    
   });
 
   context('Should follow international phone number formatting, E164', function () {
@@ -52,8 +54,12 @@ describe.only('Mongoose Email Address Manager', function(){
       });
     });
 
-    it('should remove phone', function () {
-      //TODO: research about the MongooseArray#pull or remove.
+    it('should remove phone', function (done) {
+      user.removePhone('+44 1865 722180', function (err, user) {
+        if (err) return done(err);
+        should.not.exist(user.phone_numbers);
+        done();
+      });
     });
 
     it('should find phone', function () {
@@ -65,7 +71,7 @@ describe.only('Mongoose Email Address Manager', function(){
     });
 
     it('should get primary phone', function () {
-      const phone = user.phone;
+      var phone = user.phone;
       phone.should.be.equal("+44 1865 722180");
     });
 

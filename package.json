@@ -1,0 +1,27 @@
+{
+  "name": "mongoose-phone-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "mongoose": "^4.0.6",
+    "should": "^7.0.1",
+    "mocha": "^2.2.5"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/desktoping/mongoose-phone-manager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/desktoping/mongoose-phone-manager/issues"
+  },
+  "homepage": "https://github.com/desktoping/mongoose-phone-manager#readme"
+}
