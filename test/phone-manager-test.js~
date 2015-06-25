@@ -18,7 +18,7 @@ describe('Mongoose Email Address Manager', function(){
     user = new User({
       phone_numbers: [{
         phone_number: "+44 1865 722180",
-        phone_type : "Home"
+        typeOfPhone : "Home"
       }]
     });
     user.save(function (err, doc) {
@@ -30,14 +30,14 @@ describe('Mongoose Email Address Manager', function(){
   context('Should follow international phone number formatting, E164', function () {
 
     it('should pass if valid', function () {
-      user.phone_numbers.push({phone_number: "+44 1865 221230", phone_type: "Home"});
+      user.phone_numbers.push({phone_number: "+44 1865 221230", typeOfPhone: "Home"});
       user.save(function (err) {
         should(err).not.exists;
       });
     });
 
     it('should fail otherwise', function () {
-      user.phone_numbers.push({phone_number: "23412332211", phone_type: "Home"});
+      user.phone_numbers.push({phone_number: "23412332211", typeOfPhone: "Home"});
       user.save(function (err) {
         should(err).exists;
       });
@@ -66,7 +66,7 @@ describe('Mongoose Email Address Manager', function(){
     it('should find phone', function () {
       user.findPhone("+44 1865 722180", function (err, phone) {
         phone.phone_number.should.be.equal("+44 1865 722180");
-        phone.phone_type.should.be.equal("Home");
+        phone.typeOfPhone.should.be.equal("Home");
         should(err).not.exists;
       });
     });
@@ -105,7 +105,7 @@ describe('Mongoose Email Address Manager', function(){
       user.verify("+44 1865 722180", code, function (err, phone) {
         should(err).not.exists;
         should(phone.verification.verification_code).exists;
-        should(phone.verification.verified).be.equal(true);
+        should(phone.verification.isVerified).be.equal(true);
       });
     });
 
